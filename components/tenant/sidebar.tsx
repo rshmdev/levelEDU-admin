@@ -51,12 +51,10 @@ export function DesktopNav() {
         <Suspense fallback={<LoaderIcon className="animate-spin size-3" />}>
           <NavAnimatedLogo />
         </Suspense>
-        
+
         {(session?.user?.role === USER_ROLES.SUPER_ADMIN ||
           session?.user?.role === USER_ROLES.TENANT_ADMIN ||
-          session?.user?.role === USER_ROLES.TEACHER ||
-          session?.user?.role === USER_ROLES.ADMIN
-        ) && (
+          session?.user?.role === USER_ROLES.TEACHER) && (
             <>
               <NavItem href="/" label="Inicio">
                 <Home className="h-5 w-5" />
@@ -136,9 +134,7 @@ export function MobileNav() {
         <nav className="grid gap-6 text-lg font-medium">
           {(session?.user?.role === USER_ROLES.SUPER_ADMIN ||
             session?.user?.role === USER_ROLES.TENANT_ADMIN ||
-            session?.user?.role === USER_ROLES.TEACHER ||
-            session?.user?.role === USER_ROLES.ADMIN
-        ) && (
+            session?.user?.role === USER_ROLES.TEACHER) && (
               <>
                 <NavLink href="/" icon={<Home className="h-5 w-5" />}>
                   Inicio

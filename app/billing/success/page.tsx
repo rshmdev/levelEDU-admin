@@ -1,11 +1,10 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, Loader2, ArrowRight, Sparkles } from "lucide-react";
-import { useSession } from "next-auth/react";
 
 interface SubscriptionDetails {
   sessionId: string;
@@ -15,10 +14,9 @@ interface SubscriptionDetails {
   isReady: boolean;
 }
 
-export default function BillingSuccessPage() {
+function BillingSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { data: session, status } = useSession();
   const [subscriptionDetails, setSubscriptionDetails] = useState<SubscriptionDetails>({
     sessionId: '',
     isReady: false
@@ -206,5 +204,37 @@ export default function BillingSuccessPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-background relative overflow-hidden flex items-center justify-center">
+      <div className="container relative z-10 px-4 sm:px-6 lg:px-8 py-10">
+        <div className="max-w-md mx-auto">
+          <Card className="bg-card/50 backdrop-blur-xl border border-border shadow-2xl">
+            <CardHeader className="text-center">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Loader2 className="w-8 h-8 text-primary animate-spin" />
+              </div>
+              <CardTitle className="text-xl font-bold">
+                Carregando...
+              </CardTitle>
+              <CardDescription>
+                Verificando o status do pagamento
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function BillingSuccessPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <BillingSuccessContent />
+    </Suspense>
   );
 }
