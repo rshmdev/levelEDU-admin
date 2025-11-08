@@ -1,5 +1,21 @@
+import { Metadata } from "next";
 import { LoginForm } from "@/components/admin/login/login-form"
 import Link from "next/link"
+import { generateMetadata as generateSEOMetadata } from "@/lib/seo";
+
+// SEO específico para página de login
+export const metadata: Metadata = generateSEOMetadata({
+  title: "Login - LevelEDU Admin",
+  description: "Acesse o painel administrativo do LevelEDU. Faça login para gerenciar sua escola, alunos, turmas e acompanhar o progresso acadêmico.",
+  keywords: [
+    'login LevelEDU',
+    'acesso admin',
+    'painel administrativo',
+    'gestão escolar',
+    'dashboard educacional'
+  ],
+  noindex: true // Páginas de login não devem ser indexadas
+});
 
 export default function LoginPage() {
   return (

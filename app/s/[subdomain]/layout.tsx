@@ -1,4 +1,17 @@
+import { Metadata } from "next";
 import { DesktopNav, MobileNav } from "@/components/tenant/sidebar";
+import { generateTenantMetadata } from "@/lib/seo";
+
+// Função para gerar metadados dinâmicos baseados no subdomain
+export async function generateMetadata({ 
+  params 
+}: { 
+  params: Promise<{ subdomain: string }> 
+}): Promise<Metadata> {
+  const { subdomain } = await params;
+  
+  return generateTenantMetadata(subdomain);
+}
 
 export default async function DashboardLayout({
   children
