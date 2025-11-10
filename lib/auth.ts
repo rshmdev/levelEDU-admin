@@ -8,8 +8,8 @@ const IS_PROD = process.env.NODE_ENV === 'production'
 
 const getCookieDomain = () => {
   if (IS_PROD) {
-    // Para produção, usar o domínio customizado sem prefix dot para evitar problemas
-    return undefined; // Deixar undefined para usar o domínio da requisição automaticamente
+    // Para produção, usar .leveledu.com.br para compartilhar cookies entre subdomínios
+    return `.${ROOT_DOMAIN}`;
   } else {
     // Para desenvolvimento local, usar .lvh.me que funciona com subdomínios
     const domain = '.lvh.me';
@@ -110,21 +110,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       name: IS_PROD ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
       options: {
         ...cookieBase,
-        domain: IS_PROD ? undefined : cookieBase.domain, // Em produção, deixar undefined
+        // Usar o domain configurado para compartilhar entre subdomínios
+        domain: cookieBase.domain,
       },
     },
     callbackUrl: {
       name: IS_PROD ? '__Secure-next-auth.callback-url' : 'next-auth.callback-url',
       options: {
         ...cookieBase,
-        domain: IS_PROD ? undefined : cookieBase.domain,
+        domain: cookieBase.domain,
       },
     },
     csrfToken: {
       name: 'next-auth.csrf-token', // Usar nome padrão para evitar problemas
       options: {
         ...cookieBase,
-        domain: IS_PROD ? undefined : cookieBase.domain, // Em produção, deixar undefined
+        domain: cookieBase.domain,
         path: '/',
       },
     },
