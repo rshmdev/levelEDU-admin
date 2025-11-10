@@ -5,8 +5,8 @@ export const protocol =
   process.env.NODE_ENV === 'production' ? 'https' : 'http';
 export const rootDomain = (() => {
   if (process.env.NODE_ENV === 'production') {
-    // Em produção, usar o domínio da Vercel (sem subdomínio)
-    return process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'level-edu-admin.vercel.app';
+    // Usar o novo domínio customizado em produção
+    return process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'leveledu.com.br';
   } else {
     // Em desenvolvimento, usar lvh.me com porta
     return process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'lvh.me:3000';
