@@ -8,7 +8,8 @@ const IS_PROD = process.env.NODE_ENV === 'production'
 
 const getCookieDomain = () => {
   if (IS_PROD) {
-    return `.${ROOT_DOMAIN}`;
+    // Para produção, usar o domínio customizado sem prefix dot para evitar problemas
+    return undefined; // Deixar undefined para usar o domínio da requisição automaticamente
   } else {
     // Para desenvolvimento local, usar .lvh.me que funciona com subdomínios
     const domain = '.lvh.me';
@@ -27,8 +28,10 @@ const cookieBase = {
 } as const
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  debug: IS_PROD ? false : true, // Debug apenas em desenvolvimento
   trustHost: true,
   useSecureCookies: IS_PROD,
+  secret: process.env.NEXTAUTH_SECRET, // Garantir que o secret está definido
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -105,15 +108,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   cookies: {
     sessionToken: {
       name: IS_PROD ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
-      options: cookieBase,
+      options: {
+        ...cookieBase,
+        domain: IS_PROD ? undefined : cookieBase.domain, // Em produção, deixar undefined
+      },
     },
     callbackUrl: {
       name: IS_PROD ? '__Secure-next-auth.callback-url' : 'next-auth.callback-url',
-      options: cookieBase,
+      options: {
+        ...cookieBase,
+        domain: IS_PROD ? undefined : cookieBase.domain,
+      },
     },
     csrfToken: {
-      name: IS_PROD ? '__Host-next-auth.csrf-token' : 'next-auth.csrf-token',
-      options: cookieBase,
+      name: 'next-auth.csrf-token', // Usar nome padrão para evitar problemas
+      options: {
+        ...cookieBase,
+        domain: IS_PROD ? undefined : cookieBase.domain, // Em produção, deixar undefined
+        path: '/',
+      },
     },
   },
   session: {
