@@ -8,9 +8,7 @@ const IS_PROD = process.env.NODE_ENV === 'production'
 
 const getCookieDomain = () => {
   if (IS_PROD) {
-    // Para produção na Vercel, não usar domínio fixo para cookies
-    // Deixar undefined para usar o domínio da requisição
-    return undefined;
+    return `.${ROOT_DOMAIN}`;
   } else {
     // Para desenvolvimento local, usar .lvh.me que funciona com subdomínios
     const domain = '.lvh.me';
@@ -107,11 +105,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   cookies: {
     sessionToken: {
       name: IS_PROD ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
-      options: {
-        ...cookieBase,
-        // Para o sessionToken, não usar domain em produção para evitar problemas com subdomínios
-        domain: IS_PROD ? undefined : cookieBase.domain,
-      },
+      options: cookieBase,
     },
     callbackUrl: {
       name: IS_PROD ? '__Secure-next-auth.callback-url' : 'next-auth.callback-url',
@@ -119,12 +113,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     csrfToken: {
       name: IS_PROD ? '__Host-next-auth.csrf-token' : 'next-auth.csrf-token',
-      options: {
-        ...cookieBase,
-        // __Host- prefix requer path: '/' e secure: true, e NÃO pode ter domain
-        domain: IS_PROD ? undefined : cookieBase.domain,
-        path: '/',
-      },
+      options: cookieBase,
     },
   },
   session: {
