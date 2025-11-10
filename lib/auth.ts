@@ -165,8 +165,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
     async redirect({ url, baseUrl }) {
-      // Se estamos fazendo login, redirecionar para o subdomínio correto
-      if (url === baseUrl || url === `${baseUrl}/`) {
+      console.log('NextAuth redirect callback - url:', url, 'baseUrl:', baseUrl);
+      
+      // Se for logout, redirecionar para login
+      if (url.includes('/auth/signout') || url.includes('/api/auth/signout')) {
+        return `${baseUrl}/login`;
+      }
+      
+      // Para login, permitir que o componente de login faça o redirecionamento
+      // Não interceptar redirecionamentos customizados
+      if (url === baseUrl || url === `${baseUrl}/` || url.includes('/login')) {
         return baseUrl;
       }
       
