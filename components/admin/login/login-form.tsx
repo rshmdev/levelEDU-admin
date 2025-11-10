@@ -48,24 +48,31 @@ export function LoginForm() {
           if (session.user.role === USER_ROLES.SUPER_ADMIN) {
             router.push('/admin')
           } else {
-            // Redirecionar para o subdomínio do tenant
-            const tenantSubdomain = session.user.tenantSubdomain;
-            console.log('Session data:', session.user);
-            console.log('Tenant subdomain:', tenantSubdomain);
-            console.log('Root domain:', rootDomain);
-            console.log('Protocol:', protocol);
-            
-            if (tenantSubdomain) {
-              // Construir a URL do tenant incluindo porta em desenvolvimento
-              const tenantUrl = `${protocol}://${tenantSubdomain}.${rootDomain}`;
-
-              console.log('Redirecionando para o subdomínio do tenant:', tenantUrl);
-              
-              // Usar window.location para redirecionamento entre domínios
-              window.location.href = tenantUrl;
-            } else {
-              // Fallback para a estrutura de path
+            // Em produção na Vercel, usar estrutura de path em vez de subdomínios
+            // até configurar wildcard domain
+            if (process.env.NODE_ENV === 'production') {
+              // Usar estrutura de path para tenants em produção
               router.replace(`/s/${session.user.tenantSubdomain}`);
+            } else {
+              // Em desenvolvimento, usar subdomínios
+              const tenantSubdomain = session.user.tenantSubdomain;
+              console.log('Session data:', session.user);
+              console.log('Tenant subdomain:', tenantSubdomain);
+              console.log('Root domain:', rootDomain);
+              console.log('Protocol:', protocol);
+              
+              if (tenantSubdomain) {
+                // Construir a URL do tenant incluindo porta em desenvolvimento
+                const tenantUrl = `${protocol}://${tenantSubdomain}.${rootDomain}`;
+
+                console.log('Redirecionando para o subdomínio do tenant:', tenantUrl);
+                
+                // Usar window.location para redirecionamento entre domínios
+                window.location.href = tenantUrl;
+              } else {
+                // Fallback para a estrutura de path
+                router.replace(`/s/${session.user.tenantSubdomain}`);
+              }
             }
           }
         }

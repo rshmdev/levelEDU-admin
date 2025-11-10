@@ -3,8 +3,15 @@ import { twMerge } from "tailwind-merge"
 
 export const protocol =
   process.env.NODE_ENV === 'production' ? 'https' : 'http';
-export const rootDomain =
-  process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'lvh.me:3000';
+export const rootDomain = (() => {
+  if (process.env.NODE_ENV === 'production') {
+    // Em produção, usar o domínio da Vercel (sem subdomínio)
+    return process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'level-edu-admin.vercel.app';
+  } else {
+    // Em desenvolvimento, usar lvh.me com porta
+    return process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'lvh.me:3000';
+  }
+})();
   
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
