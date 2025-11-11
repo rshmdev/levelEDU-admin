@@ -180,10 +180,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
     async redirect({ url, baseUrl }) {
-      // Se estamos fazendo logout, sempre redirecionar para o domínio raiz
-      if (url.includes('callbackUrl') || url.includes('signout')) {
-        const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'https://leveledu.com.br';
-        return rootDomain;
+      console.log('NextAuth redirect called:', { url, baseUrl });
+      
+      // Se estamos fazendo logout ou signout, sempre redirecionar para o domínio raiz
+      if (url.includes('signout') || url.includes('logout')) {
+        console.log('Logout detected, redirecting to root domain');
+        return 'https://leveledu.com.br';
+      }
+      
+      // Se a URL já é absoluta e válida, usar ela
+      if (url.startsWith('http')) {
+        return url;
       }
       
       // Se estamos fazendo login, redirecionar para o subdomínio correto
