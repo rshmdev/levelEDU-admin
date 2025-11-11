@@ -14,7 +14,7 @@ export function PricingSection() {
     trial: "🆓",
     starter: "📚",
     professional: "🎓",
-    enterprise: "🏫"
+    growth: "🚀"
   };
 
   // Definir qual plano é destacado
@@ -134,7 +134,13 @@ export function PricingSection() {
 
                 {/* Botão sempre no final do cartão */}
                 <Button
-                  onClick={() => router.push(`/signup?plan=${plan.id}`)}
+                  onClick={() => {
+                    const searchParams = new URLSearchParams({ plan: plan.id });
+                    if (isTrialPlan) {
+                      searchParams.set('trial', '30');
+                    }
+                    router.push(`/signup?${searchParams.toString()}`);
+                  }}
                   className={`w-full mt-auto ${isHighlighted ? "bg-primary hover:bg-primary/90" : "bg-secondary hover:bg-secondary/80"
                     }`}
                 >

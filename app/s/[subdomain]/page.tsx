@@ -4,6 +4,7 @@ import { Users, Briefcase, Package, ShoppingCart } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { StatsCard } from '@/components/tenant/home/stats-card';
 import { TopStudentsTable } from '@/components/tenant/home/top-students-table';
+import { PlanUsageOverview } from '@/components/tenant/usage/plan-usage-overview';
 import { getHomeData } from './actions';
 import { useQuery } from '@tanstack/react-query';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -33,6 +34,9 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6 flex-1 overflow-auto pb-2">
       <h1 className="text-3xl font-bold mt-2">Dashboard</h1>
+      
+      {/* Plan Usage Overview */}
+      <PlanUsageOverview />
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatsCard

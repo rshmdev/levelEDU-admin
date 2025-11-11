@@ -24,7 +24,7 @@ interface TenantSettings {
 }
 
 interface TenantPlan {
-  type: 'trial' | 'basic' | 'professional' | 'enterprise';
+  type: 'trial' | 'starter' | 'professional' | 'growth';
   limits: {
     maxUsers: number;
     maxClasses: number;

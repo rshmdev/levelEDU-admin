@@ -20,12 +20,14 @@ export const metadata: Metadata = generateSEOMetadata({
 interface SignupPageProps {
   searchParams: Promise<{
     plan?: string;
+    trial?: string;
   }>;
 }
 
 export default async function SignupPage({ searchParams }: SignupPageProps) {
   const params = await searchParams;
   const planId = params.plan;
+  const trialDays = params.trial ? parseInt(params.trial) : undefined;
 
   if (!planId) {
     redirect('/#pricing');
@@ -40,7 +42,7 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
       redirect('/#pricing');
     }
 
-    return <SchoolSignupForm plan={selectedPlan} />;
+    return <SchoolSignupForm plan={selectedPlan} trialDays={trialDays} />;
   } catch (error) {
     redirect('/#pricing');
   }

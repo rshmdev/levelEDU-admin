@@ -2,7 +2,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-card/30 py-12 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
+        <div className="grid md:grid-cols-3 gap-8 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
@@ -30,42 +30,6 @@ export function Footer() {
                   Planos
                 </a>
               </li>
-              <li>
-                <a href="#" className="hover:text-foreground transition-colors">
-                  Integrações
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-foreground transition-colors">
-                  Atualizações
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-foreground mb-4">Empresa</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <a href="#" className="hover:text-foreground transition-colors">
-                  Sobre
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-foreground transition-colors">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-foreground transition-colors">
-                  Carreiras
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-foreground transition-colors">
-                  Contato
-                </a>
-              </li>
             </ul>
           </div>
 
@@ -73,24 +37,9 @@ export function Footer() {
             <h3 className="font-semibold text-foreground mb-4">Suporte</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <a href="#" className="hover:text-foreground transition-colors">
-                  Central de Ajuda
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-foreground transition-colors">
-                  Documentação
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-foreground transition-colors">
-                  Status
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-foreground transition-colors">
-                  API
-                </a>
+                <span className="text-muted-foreground">
+                  Em breve
+                </span>
               </li>
             </ul>
           </div>
@@ -98,17 +47,6 @@ export function Footer() {
 
         <div className="pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">© 2025 levelEdu. Todos os direitos reservados.</p>
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-foreground transition-colors">
-              Privacidade
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
-              Termos
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
-              Cookies
-            </a>
-          </div>
         </div>
       </div>
     </footer>

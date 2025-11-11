@@ -19,9 +19,10 @@ interface SchoolSignupFormProps {
     priceYearly: number;
     features: string[];
   };
+  trialDays?: number;
 }
 
-export default function SchoolSignupForm({ plan }: SchoolSignupFormProps) {
+export default function SchoolSignupForm({ plan, trialDays }: SchoolSignupFormProps) {
   const router = useRouter();
   const { mutate: createCheckout, isPending } = useCreateCheckout();
   
@@ -158,11 +159,16 @@ export default function SchoolSignupForm({ plan }: SchoolSignupFormProps) {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2">
+            <h1 className="text-3xl font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent mb-2">
               Criar sua escola no LevelEdu
             </h1>
             <p className="text-muted-foreground">
               Plano selecionado: <span className="font-medium text-foreground">{plan.name}</span>
+              {trialDays && (
+                <span className="ml-2 text-primary font-medium">
+                  • {trialDays} dias grátis
+                </span>
+              )}
             </p>
           </div>
 
@@ -354,7 +360,7 @@ export default function SchoolSignupForm({ plan }: SchoolSignupFormProps) {
                   <h4 className="font-medium text-sm">Recursos inclusos:</h4>
                   {plan.features.slice(0, 5).map((feature, index) => (
                     <div key={index} className="flex items-start gap-2 text-sm">
-                      <Check className="h-3 w-3 text-primary mt-1 flex-shrink-0" />
+                      <Check className="h-3 w-3 text-primary mt-1 shrink-0" />
                       <span className="text-muted-foreground">{feature}</span>
                     </div>
                   ))}

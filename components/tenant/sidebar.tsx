@@ -3,6 +3,7 @@
 
 import {
   Book,
+  CreditCard,
   GraduationCap,
   GraduationCapIcon,
   Home,
@@ -91,6 +92,10 @@ export function DesktopNav() {
               <NavItem href="/students" label="Alunos">
                 <Users2 className="h-5 w-5" />
               </NavItem>
+
+              <NavItem href="/billing" label="Assinatura">
+                <CreditCard className="h-5 w-5" />
+              </NavItem>
             </>
           )}
 
@@ -174,6 +179,9 @@ export function MobileNav() {
                 </NavLink>
                 <NavLink href="/students" icon={<Users2 className="h-5 w-5" />}>
                   Alunos
+                </NavLink>
+                <NavLink href="/billing" icon={<CreditCard className="h-5 w-5" />}>
+                  Assinatura
                 </NavLink>
               </>
             )}

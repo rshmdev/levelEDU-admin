@@ -1,10 +1,14 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Sparkles } from "lucide-react"
+import { ArrowRight, Sparkles, Loader2 } from "lucide-react"
+import { useCheckout } from "@/hooks/use-checkout"
 
 export function CTASection() {
+  const { startFreeTrial, loading } = useCheckout();
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
+      <div className="absolute inset-0 bg-linear-to-b from-background via-primary/5 to-background" />
 
       <div className="container mx-auto relative z-10">
         <div className="max-w-4xl mx-auto text-center">
@@ -15,7 +19,7 @@ export function CTASection() {
 
           <h2 className="text-4xl sm:text-5xl font-bold mb-6 text-balance">
             Pronto para revolucionar sua{" "}
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">sala de aula?</span>
+            <span className="bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">sala de aula?</span>
           </h2>
 
           <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed text-pretty">
@@ -23,9 +27,23 @@ export function CTASection() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-lg px-8 group">
-              Começar Grátis por 30 Dias
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            <Button 
+              size="lg" 
+              className="bg-primary hover:bg-primary/90 text-lg px-8 group"
+              onClick={() => startFreeTrial()}
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Carregando...
+                </>
+              ) : (
+                <>
+                  Começar Grátis por 30 Dias
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </>
+              )}
             </Button>
           </div>
 
