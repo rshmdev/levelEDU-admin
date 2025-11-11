@@ -185,7 +185,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // Se estamos fazendo logout ou signout, sempre redirecionar para o domínio raiz
       if (url.includes('signout') || url.includes('logout')) {
         console.log('Logout detected, redirecting to root domain');
-        return 'https://leveledu.com.br';
+        const rootDomainWithPort = process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'leveledu.com.br';
+        const protocol = typeof window !== 'undefined' ? window.location.protocol : 'https:';
+        const redirectUrl = rootDomainWithPort.startsWith('http') 
+          ? rootDomainWithPort 
+          : `${protocol}//${rootDomainWithPort}`;
+        return redirectUrl;
       }
       
       // Se a URL já é absoluta e válida, usar ela

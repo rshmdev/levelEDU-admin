@@ -7,6 +7,10 @@ export function useLogout() {
     try {
       console.log('Starting logout process...');
       
+      // Get root domain from environment variable (declare once at function level)
+      const rootDomainWithPort = process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'leveledu.com.br';
+      const rootDomain = rootDomainWithPort.replace(/:\d+$/, ''); // Remove port if present
+      
       // Clear any local storage or session storage first
       if (typeof window !== 'undefined') {
         localStorage.clear();
@@ -15,7 +19,7 @@ export function useLogout() {
         
         // Get current hostname to determine domain for cookies
         const hostname = window.location.hostname;
-        const isSubdomain = hostname.includes('.leveledu.com.br') && hostname !== 'leveledu.com.br';
+        const isSubdomain = hostname.includes(`.${rootDomain}`) && hostname !== rootDomain;
         
         // Clear cookies more specifically
         const cookieNames = [
@@ -34,8 +38,8 @@ export function useLogout() {
           
           if (isSubdomain) {
             // Clear for parent domain
-            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.leveledu.com.br;`;
-            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=leveledu.com.br;`;
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${rootDomain};`;
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${rootDomain};`;
           }
         });
         
@@ -54,14 +58,23 @@ export function useLogout() {
       // Force redirect to root domain
       console.log('Redirecting to root domain...');
       if (typeof window !== 'undefined') {
-        window.location.href = 'https://leveledu.com.br';
+        const protocol = window.location.protocol;
+        const redirectUrl = rootDomainWithPort.startsWith('http') 
+          ? rootDomainWithPort 
+          : `${protocol}//${rootDomainWithPort}`;
+        window.location.href = redirectUrl;
       }
     } catch (error) {
       console.error('Error during logout:', error);
       // Force redirect even if logout fails
       if (typeof window !== 'undefined') {
         console.log('Forcing redirect after error...');
-        window.location.href = 'https://leveledu.com.br';
+        const rootDomainWithPort = process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'leveledu.com.br';
+        const protocol = window.location.protocol;
+        const redirectUrl = rootDomainWithPort.startsWith('http') 
+          ? rootDomainWithPort 
+          : `${protocol}//${rootDomainWithPort}`;
+        window.location.href = redirectUrl;
       }
     }
   };

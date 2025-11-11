@@ -69,18 +69,33 @@ function getSubdomainFromUrl(): string | null {
   
   const hostname = window.location.hostname;
   
+  // Get root domain from environment variable
+  const rootDomainWithPort = process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'leveledu.com.br';
+  const rootDomain = rootDomainWithPort.replace(/:\d+$/, ''); // Remove port if present
+  
   // Local development
-  if (hostname.includes('localhost')) {
+  if (hostname.includes('localhost') || hostname.includes('lvh.me')) {
     // demo.localhost:3000 -> demo
-    if (hostname !== 'localhost') {
+    // demo.lvh.me -> demo
+    if (hostname !== 'localhost' && hostname !== 'lvh.me' && hostname !== rootDomain) {
       return hostname.split('.')[0];
     }
     return null;
   }
   
-  // Production - assumindo que o domínio root é conhecido
-  // exemplo.com.br -> null
-  // demo.exemplo.com.br -> demo
+  // Production - verificar se é o domínio principal ou subdomínio
+  // Se é exatamente o domínio principal, não há subdomínio
+  if (hostname === rootDomain) {
+    return null;
+  }
+  
+  // Se termina com .{rootDomain} e não é o domínio principal, extrair subdomínio
+  if (hostname.endsWith(`.${rootDomain}`)) {
+    const subdomain = hostname.replace(`.${rootDomain}`, '');
+    return subdomain || null;
+  }
+  
+  // Fallback para outros domínios
   const parts = hostname.split('.');
   if (parts.length > 2) {
     return parts[0];
@@ -130,7 +145,10 @@ export function TenantProvider({ children }: TenantProviderProps) {
     setMounted(true);
   }, []);
 
-  // Query for tenant data
+  // Se não há subdomínio, significa que estamos no domínio principal
+  const isRootDomain = mounted && !metadata?.subdomain;
+
+  // Query for tenant data - only enabled when we have a subdomain
   const tenantQuery = useQuery({
     queryKey: tenantKeys.detail(metadata?.subdomain || ''),
     queryFn: () => fetchTenantData(metadata!.subdomain),
@@ -206,9 +224,9 @@ export function TenantProvider({ children }: TenantProviderProps) {
 //   }, [tenantQuery.status]);
 
   const contextValue: TenantContextType = {
-    tenant: mounted ? (tenantQuery.data?.data || null) : null,
-    loading: !mounted || tenantQuery.isLoading,
-    error: tenantQuery.error?.message || null,
+    tenant: isRootDomain ? null : (mounted ? (tenantQuery.data?.data || null) : null),
+    loading: !mounted || (!isRootDomain && tenantQuery.isLoading),
+    error: isRootDomain ? null : (tenantQuery.error?.message || null),
     refreshTenant,
   };
 
