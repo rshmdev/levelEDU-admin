@@ -374,7 +374,7 @@ export default function SchoolSignupForm({ plan, trialDays }: SchoolSignupFormPr
                 <Alert>
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
-                    Teste grátis por 14 dias. Cancele a qualquer momento.
+                    Teste grátis por 30 dias. Cancele a qualquer momento.
                   </AlertDescription>
                 </Alert>
               </CardContent>
