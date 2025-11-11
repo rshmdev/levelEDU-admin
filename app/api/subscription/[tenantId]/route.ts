@@ -4,7 +4,7 @@ import { API_CONFIG } from '@/config/api';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { tenantId: string } }
+  { params }: { params: Promise<{ tenantId: string }> }
 ) {
   try {
     const session = await auth();
@@ -16,8 +16,11 @@ export async function GET(
       );
     }
 
+    // Await params in Next.js 15
+    const { tenantId } = await params;
+
     // Verificar se o usuário tem acesso ao tenant
-    if (session.user.tenantId !== params.tenantId) {
+    if (session.user.tenantId !== tenantId) {
       return NextResponse.json(
         { error: 'Acesso negado' },
         { status: 403 }
@@ -25,7 +28,7 @@ export async function GET(
     }
 
     // Buscar dados da assinatura no backend
-    const response = await fetch(`${API_CONFIG.baseUrl}/billing/subscription/${params.tenantId}`, {
+    const response = await fetch(`${API_CONFIG.baseUrl}/billing/subscription/${tenantId}`, {
       headers: {
         'Authorization': `Bearer ${session.accessToken}`,
         'Content-Type': 'application/json',

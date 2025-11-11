@@ -4,7 +4,7 @@ import { API_CONFIG } from '@/config/api';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { tenantId: string } }
+  { params }: { params: Promise<{ tenantId: string }> }
 ) {
   try {
     const session = await auth();
@@ -16,8 +16,11 @@ export async function POST(
       );
     }
 
+    // Await params in Next.js 15
+    const { tenantId } = await params;
+
     // Verificar se o usuário tem acesso ao tenant e é admin
-    if (session.user.tenantId !== params.tenantId || session.user.role !== 'tenant_admin') {
+    if (session.user.tenantId !== tenantId || session.user.role !== 'tenant_admin') {
       return NextResponse.json(
         { error: 'Acesso negado' },
         { status: 403 }
@@ -25,7 +28,7 @@ export async function POST(
     }
 
     // Cancelar assinatura no backend
-    const response = await fetch(`${API_CONFIG.baseUrl}/billing/subscription/${params.tenantId}/cancel`, {
+    const response = await fetch(`${API_CONFIG.baseUrl}/billing/subscription/${tenantId}/cancel`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${session.accessToken}`,
