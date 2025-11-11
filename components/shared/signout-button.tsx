@@ -6,15 +6,17 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip';
 import { LogOut } from 'lucide-react';
-import { signOut } from 'next-auth/react';
+import { useLogout } from '@/hooks/use-logout';
 
 export function SignoutButton() {
+  const { logout } = useLogout();
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <div
-          onClick={() => signOut()}
-          className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+          onClick={logout}
+          className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 cursor-pointer"
         >
           <LogOut className="size-5" />
         </div>
@@ -25,9 +27,11 @@ export function SignoutButton() {
 }
 
 export function SignoutButtonMobile() {
+  const { logout } = useLogout();
+
   return (
     <span
-      onClick={() => signOut()}
+      onClick={logout}
       className="flex items-center gap-4 px-2.5 transition-colors text-muted-foreground hover:text-foreground text-lg font-semibold cursor-pointer"
     >
       <LogOut className="size-5" />

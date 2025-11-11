@@ -138,6 +138,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     signIn: '/login',
     error: '/login',
+    signOut: '/' // Redirect to root domain after sign out
   },
   callbacks: {
     async jwt({ token, user, account }): Promise<JWT> {
@@ -179,6 +180,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
     async redirect({ url, baseUrl }) {
+      // Se estamos fazendo logout, sempre redirecionar para o domínio raiz
+      if (url.includes('callbackUrl') || url.includes('signout')) {
+        const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'https://leveledu.com.br';
+        return rootDomain;
+      }
+      
       // Se estamos fazendo login, redirecionar para o subdomínio correto
       if (url === baseUrl || url === `${baseUrl}/`) {
         return baseUrl;
