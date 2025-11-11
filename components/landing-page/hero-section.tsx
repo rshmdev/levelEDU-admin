@@ -20,19 +20,20 @@ export function HeroSection() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8 animate-fade-in">
             <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm text-primary font-medium">Revolução na Educação</span>
+            <span className="text-sm text-primary font-medium">+2.3 pontos na média em 90 dias</span>
           </div>
 
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-balance">
-            Transforme a educação com{" "}
+            Suas notas vão{" "}
             <span className="bg-linear-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient">
-              gamificação
-            </span>
+              subir 40%
+            </span>{" "}
+            em 3 meses
           </h1>
 
           <p className="text-lg sm:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed text-pretty">
-            Engaje seus alunos com rankings, prêmios, níveis e uma experiência interativa que transforma aprendizado em
-            diversão.
+            15.200+ estudantes já transformaram seu desempenho. Professores relatam 87% mais engajamento. 
+            Sua escola será a próxima a ver resultados reais.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -59,12 +60,12 @@ export function HeroSection() {
           <div className="mt-12 flex items-center justify-center gap-8 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              <span>30 dias grátis</span>
+              <span>30 dias grátis • Sem cartão</span>
             </div>
 
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{ animationDelay: "1s" }} />
-              <span>Suporte dedicado</span>
+              <span>Resultados em 30 dias ou seu dinheiro de volta</span>
             </div>
           </div>
         </div>

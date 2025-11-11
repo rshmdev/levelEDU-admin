@@ -7,6 +7,8 @@ import { HeroSection } from "@/components/landing-page/hero-section";
 import { PhoneMockupSection } from "@/components/landing-page/phone-mockup-section";
 import { PricingSection } from "@/components/landing-page/pricing-section";
 import { StatsSection } from "@/components/landing-page/stats-section";
+import { DemoSection } from "@/components/landing-page/demo-section";
+import { UrgencySection } from "@/components/landing-page/urgency-section";
 import { generateMetadata as generateSEOMetadata, generateSchemaData } from "@/lib/seo";
 import { StructuredData } from "@/components/shared/seo";
 
@@ -104,8 +106,10 @@ export default function Page() {
       <main>
         <HeroSection />
         <StatsSection />
+        <DemoSection />
         <PhoneMockupSection />
         <FeaturesSection />
+        <UrgencySection />
         <PricingSection />
         <CTASection />
       </main>
